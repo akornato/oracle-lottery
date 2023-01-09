@@ -1,0 +1,10 @@
+{
+  "name": "oracle-lottery",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "mob",
+    "sol"
+  ],
+  "packageManager": "yarn@3.3.0"
+}
