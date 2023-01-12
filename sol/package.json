@@ -3,8 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "sol:node": "hardhat node",
+    "sol:clean": "hardhat clean",
+    "sol:compile": "hardhat compile",
+    "sol:test": "hardhat test",
+    "sol:deploy": "hardhat run ./scripts/deploy.ts",
+    "sol:verify": "hardhat verify"
+  },
   "dependencies": {
     "@chainlink/contracts": "^0.5.1",
+    "dotenv": "^16.0.3",
     "hardhat": "^2.12.2"
   },
   "devDependencies": {
