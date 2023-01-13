@@ -1,11 +1,10 @@
 # Oracle Lottery
 
-This is a [React Native](https://reactnative.dev/) lottery mobile app fronting `OracleLottery` contract wich relies on [Chainlink](https://chain.link/) oracles to get a random number and determine the lottery winner.
+This is a [React Native](https://reactnative.dev/) lottery mobile app interacting with `OracleLottery` contract which uses [Chainlink VRF](https://docs.chain.link/vrf/v2/introduction) to get a random number and determine the lottery winner.
 
 Tech:
 
 - [Hardhat](https://hardhat.org)
-- [Chainlink](https://docs.chain.link/vrf/v2/direct-funding) with Direct Funding Method
 - [Expo](https://expo.dev)
 - [React Native Paper](https://reactnativepaper.com)
 
