@@ -10,6 +10,6 @@ Tech:
 
 # Local dev
 
-- `yarn sol:node` starts Hardhat Network
-- `yarn sol:deploy` deploys `Lottery` contract
+- `yarn sol:deploy` deploys `Lottery` contract to Mumbai
+- `yarn sol:test` tests `Lottery` contract on Mumbai
 - `yarn mob:start` starts Expo dev server
