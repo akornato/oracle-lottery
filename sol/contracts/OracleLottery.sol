@@ -6,8 +6,8 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
-// based on VRFv2DirectFundingConsumer.sol sample contract
-// https://docs.chain.link/vrf/v2/direct-funding/examples/get-a-random-number/
+// based on VRFv2Consumer.sol sample contract
+// https://docs.chain.link/vrf/v2/subscription/examples/get-a-random-number
 
 contract OracleLottery is VRFConsumerBaseV2, ConfirmedOwner {
     event LotteryEntered(address player);
