@@ -1,9 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
-import { useTheme } from "react-native-paper";
+import { View } from "react-native";
+import { useTheme, Button } from "react-native-paper";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 export default function App() {
   const theme = useTheme();
+  const connector = useWalletConnect();
+
   return (
     <View
       style={{
@@ -13,9 +16,11 @@ export default function App() {
         justifyContent: "center",
       }}
     >
-      <Text style={{ color: theme.colors.onBackground }}>
-        Open up App.js to start working on your app!
-      </Text>
+      {connector.connected ? (
+        <Button onPress={() => connector.killSession()}>Disconnect</Button>
+      ) : (
+        <Button onPress={() => connector.connect()}>Connect</Button>
+      )}
       <StatusBar style="auto" />
     </View>
   );

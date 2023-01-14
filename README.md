@@ -7,9 +7,10 @@ Tech:
 - [Hardhat](https://hardhat.org)
 - [Expo](https://expo.dev)
 - [React Native Paper](https://reactnativepaper.com)
+- [WalletConnect](https://docs.walletconnect.com/1.0/quick-start/dapps/react-native)
 
 # Local dev
 
 - `yarn sol:deploy` deploys `Lottery` contract to Mumbai
 - `yarn sol:test` tests `Lottery` contract on Mumbai
-- `yarn mob:start` starts Expo dev server
+- `yarn mob:web` starts Expo dev server
