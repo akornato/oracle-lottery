@@ -34,8 +34,8 @@ describe("OracleLottery", () => {
     const tx = await oracleLottery.drawWinner({ gasLimit: 300000 });
     await tx.wait();
     const event: { winner: string; payout: BigNumber } = await new Promise(
-      async (resolve) => {
-        oracleLottery.once("LotteryWon", async (winner, payout) => {
+      (resolve) => {
+        oracleLottery.once("LotteryWon", (winner, payout) => {
           resolve({ winner, payout });
         });
       }
