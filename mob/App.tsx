@@ -20,7 +20,6 @@ export default function App() {
   const user = connector.accounts?.[0];
   const [oracleLottery, setOracleLottery] = useState<OracleLottery>();
   const [players, setPlayers] = useState<string[]>();
-  const [enteringLottery, setEnteringLottery] = useState(false);
 
   useEffect(() => {
     const getPlayers = async () => {
@@ -50,12 +49,10 @@ export default function App() {
   }, [connector]);
 
   const enterLottery = useCallback(async () => {
-    setEnteringLottery(true);
     const tx = await oracleLottery.enterLottery(user, {
       value: ethers.utils.parseEther("0.0001"),
     });
     await tx.wait();
-    setEnteringLottery(false);
     oracleLottery.getPlayers().then(setPlayers);
   }, [oracleLottery]);
 
@@ -89,6 +86,15 @@ export default function App() {
               Enter lottery for 0.0001 MATIC
             </Button>
           )}
+          {players.length > 0 && (
+            <Button
+              style={styles.button}
+              mode="contained"
+              onPress={() => oracleLottery.drawWinner()}
+            >
+              Draw lottery winner
+            </Button>
+          )}
         </>
       )}
       <StatusBar style="auto" />
@@ -102,5 +108,8 @@ const styles = StyleSheet.create({
     padding: 8,
     alignItems: "center",
     justifyContent: "center",
+  },
+  button: {
+    marginTop: 8,
   },
 });
