@@ -7,7 +7,7 @@ const config: HardhatUserConfig = {
   solidity: "0.8.17",
   networks: {
     mumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`,
+      url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_KEY}`,
       accounts: [process.env.PRIVATE_KEY || ""],
     },
   },
