@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Constants from "expo-constants";
 const { infuraKey } = Constants.expoConfig.extra;
 import { StatusBar } from "expo-status-bar";
@@ -17,7 +17,10 @@ import type { OracleLottery } from "sol/typechain-types";
 
 export default function App() {
   const connector = useWalletConnect();
+  const user = connector.accounts?.[0];
+  const [oracleLottery, setOracleLottery] = useState<OracleLottery>();
   const [players, setPlayers] = useState<string[]>();
+  const [enteringLottery, setEnteringLottery] = useState(false);
 
   useEffect(() => {
     const getPlayers = async () => {
@@ -39,11 +42,22 @@ export default function App() {
           abi,
           signer
         ) as OracleLottery;
+        setOracleLottery(oracleLottery);
         oracleLottery.getPlayers().then(setPlayers);
       }
     };
     getPlayers();
   }, [connector]);
+
+  const enterLottery = useCallback(async () => {
+    setEnteringLottery(true);
+    const tx = await oracleLottery.enterLottery(user, {
+      value: ethers.utils.parseEther("0.0001"),
+    });
+    await tx.wait();
+    setEnteringLottery(false);
+    oracleLottery.getPlayers().then(setPlayers);
+  }, [oracleLottery]);
 
   return (
     <View
@@ -63,12 +77,19 @@ export default function App() {
         </Button>
       )}
       {connector.connected && players && (
-        <Surface style={styles.surface}>
-          <Text>{players.length > 0 ? "Players:" : "No players yet"}</Text>
-          {players.map((player) => (
-            <Text key={player}>{player}</Text>
-          ))}
-        </Surface>
+        <>
+          <Surface style={styles.surface}>
+            <Text>{players.length > 0 ? "Players:" : "No players yet"}</Text>
+            {players.map((player) => (
+              <Text key={player}>{player}</Text>
+            ))}
+          </Surface>
+          {!players.includes[user] && (
+            <Button mode="contained" onPress={enterLottery}>
+              Enter lottery for 0.0001 MATIC
+            </Button>
+          )}
+        </>
       )}
       <StatusBar style="auto" />
     </View>
@@ -77,7 +98,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   surface: {
-    marginTop: 8,
+    marginVertical: 8,
     padding: 8,
     alignItems: "center",
     justifyContent: "center",
