@@ -1,47 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
-import Constants from "expo-constants";
-const { infuraKey } = Constants.expoConfig.extra;
 import { StatusBar } from "expo-status-bar";
 import { View, Text, StyleSheet } from "react-native";
 import { Button, Surface } from "react-native-paper";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-// Import the crypto getRandomValues shim (**BEFORE** the shims)
-import "react-native-get-random-values";
-// Import the the ethers shims (**BEFORE** ethers)
-import "@ethersproject/shims";
-// Import the ethers library
-import { ethers, providers } from "ethers";
+import { ethers } from "ethers";
+import { useContract } from "wagmi";
 import { abi } from "sol/artifacts/contracts/OracleLottery.sol/OracleLottery.json";
 import type { OracleLottery } from "sol/typechain-types";
 
 export default function App() {
   const connector = useWalletConnect();
   const user = connector.accounts?.[0];
-  const [oracleLottery, setOracleLottery] = useState<OracleLottery>();
+  const oracleLottery = useContract({
+    address: "0xaab0920e959Fc4124cF712aF815d2bc16d331dD3",
+    abi,
+  }) as OracleLottery;
   const [players, setPlayers] = useState<string[]>();
 
   useEffect(() => {
     const getPlayers = async () => {
       if (connector.connected) {
-        const provider = new WalletConnectProvider({
-          rpc: {
-            80001: `https://polygon-mumbai.infura.io/v3/${infuraKey}`,
-          },
-          infuraId: infuraKey,
-          chainId: 80001,
-          connector,
-          qrcode: false,
-        });
-        await provider.enable();
-        const web3Provider = new providers.Web3Provider(provider);
-        const signer = web3Provider.getSigner();
-        const oracleLottery = new ethers.Contract(
-          "0xaab0920e959Fc4124cF712aF815d2bc16d331dD3",
-          abi,
-          signer
-        ) as OracleLottery;
-        setOracleLottery(oracleLottery);
         oracleLottery.getPlayers().then(setPlayers);
       }
     };
